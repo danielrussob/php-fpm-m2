@@ -1,18 +1,13 @@
 FROM dnafactory/php-fpm-71
 
 RUN apt-get update -yqq && \
-    apt-get -y install libxml2-dev php-soap && \
+    apt-get -y install libxml2-dev php-soap libjpeg62-turbo-dev libxslt-dev && \
     docker-php-ext-install soap
 
 RUN pecl install xdebug && \
     docker-php-ext-enable xdebug
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
-RUN docker-php-ext-install libxslt-dev
-RUN docker-php-ext-install libpng12-dev
-RUN docker-php-ext-install libmcrypt-dev
-RUN docker-php-ext-install libjpeg62-turbo-dev
-RUN docker-php-ext-install libfreetype6-dev
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install bcmath
 RUN docker-php-ext-install exif

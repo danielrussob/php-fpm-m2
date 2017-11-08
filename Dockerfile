@@ -16,7 +16,7 @@ RUN docker-php-ext-install mysqli
 RUN apt-get update -yqq && \
     apt-get install -y zlib1g-dev libicu-dev g++ && \
     docker-php-ext-configure intl && \
-    docker-php-ext-install intl
+    docker-php-ext-install intl xsl
 
 USER root
 RUN apt-get update -yqq && \

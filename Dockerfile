@@ -60,7 +60,8 @@ RUN mkdir /var/www/dumps
 
 RUN usermod -u 1000 www-data
 
-COPY magento2.conf /var/www/sites-available/magento2.conf
+RUN rm  /var/www/sites-available/magento2.conf -Rf
+COPY ./magento2.conf /var/www/sites-available/default.conf
 RUN mkdir /var/www/magento2
 RUN chown -R www-data:www-data /var/www/magento2
 

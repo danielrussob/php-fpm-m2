@@ -62,7 +62,7 @@ RUN usermod -u 1000 www-data
 
 COPY ./magento2.conf /var/www/sites-available/magento2.conf
 RUN mkdir /var/www/magento2
-RUN chown -R www-data:www-data /var/www/magento2
+RUN chown www-data:www-data /var/www/magento2 -Rf
 
 WORKDIR /var/www
 #CMD ["php-fpm"]

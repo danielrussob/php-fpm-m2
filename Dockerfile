@@ -2,7 +2,9 @@ FROM dnafactory/php-fpm-71
 
 RUN apt-get update -yqq && \
     apt-get -y install libxml2-dev php-soap libjpeg62-turbo-dev libxslt-dev && \
-    docker-php-ext-install soap
+    docker-php-ext-install soap \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get purge -y --auto-remove
 
 RUN pecl install xdebug && \
     docker-php-ext-enable xdebug
@@ -16,16 +18,22 @@ RUN docker-php-ext-install mysqli
 RUN apt-get update -yqq && \
     apt-get install -y zlib1g-dev libicu-dev g++ && \
     docker-php-ext-configure intl && \
-    docker-php-ext-install intl xsl
+    docker-php-ext-install intl xsl \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get purge -y --auto-remove
 
 USER root
 RUN apt-get update -yqq && \
-        apt-get install -y --force-yes jpegoptim optipng pngquant gifsicle
+        apt-get install -y --force-yes jpegoptim optipng pngquant gifsicle \
+        && rm -rf /var/lib/apt/lists/* \
+        && apt-get purge -y --auto-remove
 
 RUN apt-get update -y && \
     apt-get install -y libmagickwand-dev imagemagick && \
     pecl install imagick && \
-    docker-php-ext-enable imagick
+    docker-php-ext-enable imagick \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get purge -y --auto-remove
 
 #
 #--------------------------------------------------------------------------
@@ -62,6 +70,7 @@ RUN usermod -u 1000 www-data
 RUN usermod -s /bin/bash www-data
 
 COPY ./magento2.conf /var/www/sites-available/magento2.conf
+RUN rm /var/www/sites-available/default.conf -Rf
 RUN mkdir /var/www/magento2
 RUN chown www-data:www-data /var/www/magento2 -Rf
 

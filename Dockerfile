@@ -59,12 +59,22 @@ RUN mkdir /var/www/logs
 RUN mkdir /var/www/dumps
 
 RUN usermod -u 1000 www-data
+RUN usermod -s /bin/bash www-data
 
 COPY ./magento2.conf /var/www/sites-available/magento2.conf
 RUN mkdir /var/www/magento2
 RUN chown www-data:www-data /var/www/magento2 -Rf
 
 WORKDIR /var/www
+
+RUN cd ~ && \
+    curl -sL https://deb.nodesource.com/setup_8.x -o nodesource_setup.sh && \
+    bash nodesource_setup.sh && \
+    apt-get update && apt-get install nodejs && \
+    apt-get install build-essential
+
+RUN npm install -g grunt grunt-cli
+
 #CMD ["php-fpm"]
 CMD service ssh restart && php-fpm
 

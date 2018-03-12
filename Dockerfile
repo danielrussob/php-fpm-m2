@@ -6,6 +6,8 @@ RUN apt-get update -yqq && \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get purge -y --auto-remove
 
+ADD php.ini /usr/local/etc/php
+
 RUN pecl install xdebug && \
     docker-php-ext-enable xdebug
 COPY ./xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
